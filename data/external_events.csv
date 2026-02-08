@@ -1,0 +1,16 @@
+Date,Event,Type,Description,Expected_Impact
+1990-08-02,Gulf War,Geopolitical,Iraq invades Kuwait; supply fears spike prices,High Increase
+1997-10-01,Asian Financial Crisis,Economic,Reduced industrial demand across Asia,Decrease
+2001-09-11,9/11 Attacks,Geopolitical,US terrorist attacks lead to global economic fear,Volatility
+2003-03-20,Iraq War,Geopolitical,US invasion of Iraq disrupts Middle East supply,Increase
+2008-07-11,Financial Crisis,Economic,Global banking collapse leads to major recession,Massive Decrease
+2011-02-15,Libyan Civil War,Geopolitical,Libyan oil exports halted due to conflict,Increase
+2014-11-27,OPEC Policy Shift,Policy,OPEC maintains production despite global oversupply,Crash
+2016-11-30,Algiers Accord,Policy,OPEC+ agree to first production cuts in 8 years,Recovery
+2018-05-08,US Iran Sanctions,Geopolitical,US withdraws from nuclear deal; sanctions oil,Increase
+2020-03-11,COVID-19 Pandemic,Health,Global lockdowns lead to unprecedented demand drop,Massive Decrease
+2021-03-23,Suez Canal Blockage,Logistics,Ever Given ship blocks global trade route,Short-term Spike
+2022-02-24,Russia-Ukraine War,Geopolitical,Russia invades Ukraine; energy sanctions follow,Massive Increase
+2022-06-01,EU Russian Oil Embargo,Policy,European Union bans seaborne Russian oil imports,Volatility
+2022-10-05,OPEC+ Production Cut,Policy,OPEC+ cuts 2 million barrels per day,Increase
+2022-12-05,G7 Price Cap,Policy,G7 imposes $60 price cap on Russian oil,Regulatory Shift

@@ -1,19 +1,24 @@
-# Interim Report: Brent Oil Price Analysis
-**Date:** Feb 08, 2026  
-**Author:** [Your Name]
+# Brent Oil Analysis: Strategic Interim Report
+**Project:** Change Point Analysis of Global Oil Markets  
+**Stakeholder:** Birhan Energies
 
-## 1. Planned Analysis Steps
-1. **Data Ingestion & Cleaning:** Load historical prices and handle missing dates via forward filling.
-2. **Exploratory Data Analysis (EDA):** Identify long-term trends, volatility clusters, and test for stationarity using the ADF test.
-3. **Change Point Modeling:** Apply Bayesian Inference (PyMC) to detect statistical shifts in price means.
-4. **Causal Mapping:** Match detected change points with the researched external events (OPEC policies, Geopolitical conflicts).
-5. **Dashboard Development:** Create a Flask API and React frontend to allow stakeholders to explore the data interactively.
+## 1. Analysis Workflow & Methodology
+Our approach follows a modular data science pipeline:
+1. **Ingestion:** Loading historical prices with robust error handling.
+2. **EDA:** Investigating stationarity (ADF test) and volatility regimes.
+3. **Change Point Detection:** Using Bayesian MCMC (PyMC) to find structural breaks.
+4. **Causal Attribution:** Mapping statistical breaks to historical geopolitical events.
 
-## 2. Initial EDA Findings
-* **Trend Analysis:** The data shows three distinct "Eras": The relatively stable $20/barrel era (1987-2000), the super-cycle peak reaching $140+ (2008), and the modern volatile era (2014-Present).
-* **Stationarity:** The Augmented Dickey-Fuller (ADF) test confirmed that the price is **non-stationary** (p-value > 0.05), suggesting that the mean is not constant and structural breaks exist.
-* **Volatility:** High volatility spikes align with major crises (e.g., 2008 Financial Crisis and 2020 COVID-19 pandemic).
+## 2. Assumptions & Data Limitations
+### Correlation vs. Causal Impact
+*   **The Difference:** A statistical change point identifies a shift in the price *mean*, but it does not inherently prove a specific event caused it. 
+*   **The Approach:** We assume that structural breaks occurring within a ±5-day window of a major event are highly likely to be caused by that event. However, we acknowledge that multiple factors (market sentiment, USD strength, and supply chain lag) contribute simultaneously.
+### Limitations
+*   Data frequency is daily; intra-day shocks are smoothed out.
+*   The analysis currently focuses on Brent Crude only, ignoring regional benchmarks like WTI or Urals.
 
-## 3. Assumptions and Limitations
-* **Assumptions:** We assume that price changes shortly after a major event are significantly influenced by that event.
-* **Limitations:** **Correlation is not Causation.** Statistical change points tell us *when* a change happened, but not *why*. Our causal links are hypotheses based on historical context.
+## 3. Communication Strategy
+To maximize the impact of these insights, we utilize the following channels:
+*   **Investors:** Quarterly **interactive dashboards** highlighting volatility regimes to support portfolio hedging.
+*   **Policymakers:** Bi-annual **Policy Briefs** focusing on energy security and price stability during conflict.
+*   **Energy Companies:** A **REST API (Flask)** providing real-time change point data for operational supply chain planning.
