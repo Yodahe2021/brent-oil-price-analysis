@@ -59,7 +59,50 @@ const App = () => {
           </div>
         ))}
       </div>
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, ReferenceLine } from 'recharts';
 
+const App = () => {
+  const [prices, setPrices] = useState([]);
+  const [filterRange, setFilterRange] = useState(500); // Filter state
+
+  useEffect(() => {
+    axios.get('http://127.0.0.1:5000/api/prices').then(res => setPrices(res.data.data));
+  }, []);
+
+  const displayedPrices = prices.slice(-filterRange);
+
+  return (
+    <div style={{ padding: '20px', maxWidth: '1200px', margin: '0 auto' }}>
+      <h1>Birhan Energies Dashboard</h1>
+      
+      {/* Date Range Control */}
+      <div style={{ marginBottom: '20px' }}>
+        <label>Showing last {filterRange} days: </label>
+        <input 
+          type="range" min="100" max="2000" step="100" 
+          value={filterRange} 
+          onChange={(e) => setFilterRange(e.target.value)} 
+        />
+      </div>
+
+      {/* Responsive Container ensures chart works on mobile */}
+      <div style={{ height: '400px', width: '100%', overflow: 'hidden' }}>
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart data={displayedPrices}>
+            <XAxis dataKey="Date" hide />
+            <YAxis />
+            <Tooltip />
+            <Line type="monotone" dataKey="Price" stroke="#3b82f6" dot={false} />
+            <ReferenceLine x="2014-11-25" stroke="red" label="OPEC Crash" />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
+    </div>
+  );
+};
+export default App;
       <div style={{ background: 'white', padding: '20px', borderRadius: '12px', marginBottom: '20px', boxShadow: '0 1px 3px rgb(0 0 0 / 0.1)' }}>
         <label style={{ marginRight: '15px', fontWeight: '600' }}>Select Era:</label>
         <select onChange={(e) => setFilterYear(e.target.value)} style={{ padding: '8px', borderRadius: '6px' }}>

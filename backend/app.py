@@ -6,92 +6,49 @@ import os
 app = Flask(__name__)
 CORS(app)
 
-<<<<<<< HEAD
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.abspath(os.path.join(BASE_DIR, '..', 'data'))
 
-# API Documentation:
-# GET /api/prices   - Returns JSON list of Date and Price.
-# GET /api/events   - Returns list of historical events for overlays.
-# GET /api/analysis - Returns model-detected change points and stats.
-
-@app.route('/api/prices')
-def get_prices():
-    df = pd.read_csv(os.path.join(DATA_DIR, 'BrentOilPrices.csv'))
-    return jsonify(df.tail(3000).to_dict(orient='records'))
-
-@app.route('/api/events')
-def get_events():
-    df = pd.read_csv(os.path.join(DATA_DIR, 'external_events.csv'))
-    return jsonify(df.to_dict(orient='records'))
-
-@app.route('/api/analysis')
-def get_analysis():
-    path = os.path.join(DATA_DIR, 'model_results.csv')
-    df = pd.read_csv(path) if os.path.exists(path) else pd.DataFrame([{"Metric": "N/A", "Value": "N/A"}])
-    return jsonify(df.to_dict(orient='records'))
-
-if __name__ == '__main__':
-    app.run(debug=True, port=5000)
-=======
-# ROBUST PATHING: This finds the 'data' folder relative to this script
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DATA_DIR = os.path.abspath(os.path.join(BASE_DIR, '..', 'data'))
-
-@app.route('/')
-def home():
-    return "Birhan Energies API is running! Available endpoints: /api/prices, /api/events, /api/analysis"
+def standard_response(data=None, error=None):
+    """Returns a consistent JSON structure for the frontend."""
+    return jsonify({"data": data, "error": error})
 
 @app.route('/api/prices', methods=['GET'])
 def get_prices():
+    """
+    Endpoint: GET /api/prices
+    Description: Returns sampled historical oil prices.
+    Query Params: None
+    """
     try:
-        # MATCHING FILENAME: BrentOilPrices.csv (from your screenshot)
         file_path = os.path.join(DATA_DIR, 'BrentOilPrices.csv')
         df = pd.read_csv(file_path)
-        
-        # Clean data: handle Date format if needed
-        data = df.tail(500).to_dict(orient='records') 
-        return jsonify(data)
+        # Downsample to 2000 points for responsiveness
+        data = df.iloc[::max(1, len(df)//2000)].to_dict(orient='records')
+        return standard_response(data=data)
     except Exception as e:
-        print(f"Error loading prices: {e}")
-        return jsonify({"error": str(e)}), 500
+        return standard_response(error=str(e)), 500
 
 @app.route('/api/events', methods=['GET'])
 def get_events():
+    """Endpoint: GET /api/events | Returns geopolitical event list."""
     try:
-        # MATCHING FILENAME: external_events.csv
-        file_path = os.path.join(DATA_DIR, 'external_events.csv')
-        df = pd.read_csv(file_path)
-        return jsonify(df.to_dict(orient='records'))
+        df = pd.read_csv(os.path.join(DATA_DIR, 'external_events.csv'))
+        return standard_response(data=df.to_dict(orient='records'))
     except Exception as e:
-        print(f"Error loading events: {e}")
-        return jsonify({"error": str(e)}), 500
+        return standard_response(error=str(e)), 500
 
 @app.route('/api/analysis', methods=['GET'])
 def get_analysis():
+    """Endpoint: GET /api/analysis | Returns model results."""
     try:
-        # MATCHING FILENAME: model_results.csv
-        file_path = os.path.join(DATA_DIR, 'model_results.csv')
-        
-        # Check if file exists first to avoid crash
-        if not os.path.exists(file_path):
-            return jsonify([
-                {"Metric": "Status", "Value": "Analysis results pending"},
-                {"Metric": "Info", "Value": "Run Task 2 Notebook to generate"}
-            ])
-            
-        df = pd.read_csv(file_path)
-        return jsonify(df.to_dict(orient='records'))
+        path = os.path.join(DATA_DIR, 'model_results.csv')
+        if not os.path.exists(path):
+            return standard_response(data=[{"Metric": "Status", "Value": "Pending"}])
+        df = pd.read_csv(path)
+        return standard_response(data=df.to_dict(orient='records'))
     except Exception as e:
-        print(f"Error loading analysis: {e}")
-        return jsonify({"error": str(e)}), 500
+        return standard_response(error=str(e)), 500
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
-
-@app.route('/api/prices', methods=['GET'])
-def get_prices():
-    # ... load df ...
-    data = df.tail(3000).to_dict(orient='records') # Increase to 3000 rows
-    return jsonify(data)
->>>>>>> 0b47f858235d0e06437583ca934421766d6b4f30

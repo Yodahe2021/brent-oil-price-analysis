@@ -74,9 +74,18 @@ o
  
 105to 
 52.
-🚀 Upcoming Features (Task 3)
-Flask Backend: API endpoints to serve processed data and model results.
-React Dashboard: Interactive charts using Recharts/D3.js to visualize event-price correlations.
+## 🚀 API Documentation
+- **GET /api/prices**: Returns a sampled list of oil prices (Date, Price). 
+  - *Response*: `{"data": [...], "error": null}`
+- **GET /api/events**: Returns geopolitical event list for chart overlays.
+- **GET /api/analysis**: Returns Bayesian results (Change point dates, mean shifts).
+
+## 📱 Mobile Responsiveness
+- The dashboard uses `ResponsiveContainer` from Recharts.
+- Grid layouts use CSS Flexbox to wrap components vertically on smaller screens.
+
+## 📸 Dashboard Views
+*Screenshots can be found in `/docs/screenshots/dashboard_main.png`.*
 🤝 Acknowledgments
 Tutors: Kerod, Filimon, Mahbubah.
 Organization: 10 Academy - Artificial Intelligence Mastery.
